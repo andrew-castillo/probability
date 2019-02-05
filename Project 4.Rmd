@@ -1,0 +1,207 @@
+---
+title: 'HW 4: 5.14, 5.16, 5.22, 5.50, 5.68, 5.88, 5.89'
+author: "Andrew Castillo"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+`r format(Sys.time())`
+
+<font size="4">5.14a) </font> 
+**Calculate the standard deviation**
+
+Below, we will calculate the standard deviation using the sample size, population mean, and population standard deviation.
+
+```{r}
+sample_size = 150
+pop_mean = 6.78
+pop_sd = 1.24
+sd_avg_time = pop_sd/sqrt(sample_size)
+```
+
+Based on our calculations, we know the standard deviation for average time is `r sd_avg_time` hours.
+
+<font size="4">5.14b) </font> 
+**Calculate the values within one standard deviation**
+
+We'll take the population mean, and create an interval with distance of one standard deviation above and below it.
+
+```{r}
+upper = pop_mean + sd_avg_time 
+lower = pop_mean - sd_avg_time 
+```
+
+Based off of the prior part, we know about 68% of our data points lie within the interval (`r lower` , `r upper` )
+
+We can repeat this process to find that 95% of our data points are within two standard deviations, represented by the interval (`r lower - sd_avg_time` , `r upper + sd_avg_time` )
+
+Reapeating one final time, we see that within three standard deviations, 99.6% of our data points located. The interval is (`r lower - 2*sd_avg_time` , `r upper + 2*sd_avg_time` ).
+
+
+<font size="4">5.14c) </font> 
+**Calculate probability your average will be below 6.9 hours**
+
+We know the probability P(x < 6.9) is equal to P(Z < (6.9 - 6.78)/0.1012).
+
+```{r}
+input_value = (6.9 - pop_mean)/sd_avg_time
+output_value = pnorm(input_value)
+```
+
+Therefore, based upon our calculations, the probability that your average will be below 6.9 hours is evaluated as `r output_value`
+
+<font size="4">5.16a) </font> 
+**Calculate the standard deviation when SRS is 16 files**
+
+```{r}
+srs_val = 16
+pop_sd_mb = 0.82
+sample_std_dev = 0.82/sqrt(srs_val)
+```
+
+Based on our calculateions, the standard deviation for average file size when SRS is taken at 16 files to be `r sample_std_dev`
+
+<font size="4">5.16b) </font> 
+**Find how many files you need to sample for the standard deviation of x to be less than or equal to 0.10mb **
+
+```{r}
+n = (pop_sd_mb/0.10)^2
+```
+
+Based on our calculations, we know that we'd need sample size equal to `r n` files. Since decimal values don't make sense in context, we round up for a final answer of 68 files.
+
+<font size="4">5.22a) </font> 
+**Find the approximate probability that a single student randomly chosen from the population scores 27 or higher **
+
+We know the probability P(x =< 27) is equal to 1 - P(Z < (27 - 22.3)/5.2).
+
+```{r}
+mean_act = 22.3
+sd_act = 5.2
+prob27 = 1 - pnorm((27 - 22.3)/5.2)
+```
+
+By our calculations, we know the probability is `r prob27`
+
+<font size="4">5.22b) </font> 
+**Given an SRS of 16 students, find the mean and standard deviation of the sample mean score**
+
+```{r}
+sd16_act  = sd_act/sqrt(16)
+```
+
+By our calculations, we know that the mean of the sample is equal to the population mean, so the mean is 22.3. The standard deviation of the sampling distribution of the sample standard deviation is `r sd16_act`.
+
+<font size="4">5.22c) </font> 
+**Find the approximate probability the mean score of these 16 students is 27 or higher**
+
+The approximate probability these students will score higher than 27 (or 27 exactly) is P(x >= 27), which is P(Z > (27 - 22.3)/5.2). Computing this, we find:
+
+```{r}
+low_act_chance = 1 - pnorm((27 - 22.3)/1.3)
+```
+
+This calculates to a probability of `r low_act_chance`.
+
+<font size="4">5.22d) </font> 
+**Determine if the calculation from part a or part c is more accurate**
+
+Because the scores given are only roughly normal, the answer of part c should be more accurate because x should be distributed more like a normal distribution. 
+
+<font size="4">5.50a) </font> 
+**In each of the following, is it reasonable to use a binomial distribution? **
+
+In a binomial distrubiton, X shows the successes of n independent trials. Because X is variable (and not purely an atomic success-based variable), a binomial distribution does not fit.
+
+<font size="4">5.50b) </font> 
+
+This IS a case of a binomial distribution- successes can be counted as pairs of shoes without defects, while defects would constitute the non-success case.
+
+<font size="4">5.50c) </font> 
+
+This is a binomial distribution. X can be considered the number of students who eat at least five servings of fruits and vegetables per day, with p being the probability of success (of students eating fruits/veggies) and n is the size of the SRS.
+
+<font size="4">5.50d) </font> 
+
+This can be a binomial distribution. X is the number of days per year where you skip a class. 
+
+<font size="4">5.68a) </font> 
+**Determine the mean and standard deviation of the number X of students who accept**
+
+Given that n = 1200 and the probability p = 0.75, the mean of X students is np = 1200 * 3/4 = 900.
+
+The standard deviation is calculated below as
+
+```{r}
+n = 1200
+p = 0.75
+sd_students = sqrt(n*p*(1-p))
+```
+
+which results in a value of `r sd_students`.
+
+<font size="4">5.68b) </font> 
+**Find P(X > 800) **
+
+We can calculate this as 1 - P(X < 800).
+
+```{r}
+var = 1 - pnorm(-6.7)
+```
+
+Therefore, the probability is approximately `r var`.
+
+<font size="4">5.68c) </font> 
+**Find P(X > 950) **
+
+Calculating below, we find that P(X > 950) = 1 - P(X =< 950) = 1 - P((950 - 900)/15)
+
+```{r}
+var2 = 1 - pnorm((950 - 900)/15)
+```
+
+Which results in a probability of `r var2`.
+
+<font size="4">5.68d) </font> 
+**If the college increases admissions to 1300 students, find the probability that more than 950 will accept **
+
+Applying the same calculations as the prior parts with 1300 instead of 1200, we find:
+
+```{r}
+bigger_mean = 1300 * 0.75
+bigger_sd = sqrt(1300*0.75*(1 - 0.75))
+bigger_prob_950 = 1 - pnorm((950 - 975)/bigger_sd)
+```
+
+So, the new mean is `r bigger_mean`, and the new standard deviation is `r bigger_sd`, with the new probability being `r bigger_prob_950`.
+
+
+<font size="4">5.88a) </font> 
+**Is it reasonable to take the mean of the total income X + Y to be the mu_x + mu_y? **
+
+Since X denotes the income of the husband and Y denotes the income of the wife, the two may or may not be independent. Regardless of this, the mean of the total income IS in fact mu_x + mu_y.
+
+<font size="4">5.88b) </font> 
+**Is it reasonable to take the variance as sigma^2_x + sigma^2_y? **
+
+It is only reasonable if they are independent. Since it is not guaranteed they are independent, it is not reasonable to take this as the total variance.
+
+<font size="4">5.89a) </font> 
+**Use the central limit theorem to approximate the position of the particle**
+
+We know that P(X_i = 1) = 0.6 and P(X_i = -1) = 0.4
+
+The position of the particle after n steps is the sum of the random movements X_1 + X_2 + ... + X_n. We'll find the approximate probability that, after 500 steps, the particle is at least 200 to the right.
+
+```{r}
+n_1 = 500
+p_1 = 0.6
+mean_particle = n_1*p_1
+sd_particle = sqrt(mean_particle * (1 - p_1))
+position_prob = pnorm((200 - 300)/sd_particle)
+
+```
+
+Based off our above calculations, the probability is `r position_prob`, which we can round to 0 for a final answer of 0.
